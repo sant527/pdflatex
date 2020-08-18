@@ -76,6 +76,44 @@ LANDSCAPE
 
 \end{document}
 ```
+
+## METHOD3 (indirect Method)
+
+If we are directly puttin full pdf pages then just have to use `pdfpages` and `fitpaper`. This will resize the papersize as per the page size of that of pdf page 
+
+```
+\documentclass{article}
+\usepackage{pdfpages}
+\begin{document}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 1}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 2}
+\end{document}
+```
+
+But if we want to add some margin at the bottom then we have to do the following
+We have to use the `templatesize={}{}` option first to mention the custom page size we want. This option will fit the page in the center. So if we want 15pt of space after the pdf then we have to use `offset=0,7.5` to push it above so that we have `15pt` at the bottom
+
+Also to have the page number in that 15pt extra space we have to do `\thispagestyle{plain}`
+
+```latex
+\documentclass{scrartcl}
+\usepackage{pdfpages}
+\usepackage{geometry}
+\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}
+\begin{document}
+
+\newgeometry{layoutwidth = 432pt,layoutheight = 207pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 77.347925,fitpaper,templatesize={432pt}{207pt},pagecommand={\thispagestyle{plain}}]{./test.pdf, 1}
+
+\newgeometry{layoutwidth = 432pt,layoutheight = 404.16207pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 7.5,fitpaper,templatesize={432pt}{404.16207pt},pagecommand={\thispagestyle{plain}}]{./test.pdf, 2}
+
+\newgeometry{layoutwidth = 432pt,layoutheight = 353.29749pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 7.5,fitpaper,templatesize={432pt}{353.29749pt},pagecommand={\thispagestyle{plain}}]{./test.pdf, 3}
+\end{document}
+```
+
+
 ## How it looks
 
 ![CHANGING PAGE SIZE IN THE MIDDLE OF DOCUMENT](./2020-08-18_23-41.png)
@@ -83,7 +121,6 @@ LANDSCAPE
 # How to change pdf to night mode or invert its colors
 
 Here i am using a `python` script to generate the `tex` file. The reason is my pdf is of `different page sizes`. So i am using `pdfpages` package along with `fitpaper` option
-
 
 ```python 
 from PyPDF2 import PdfFileReader
@@ -118,7 +155,7 @@ Run the code as
 python invert.pdf > invert.tex
 ```
 
-The invert.tex file will look like:
+The `invert.tex` file will look like:
 
 ```latex
 \documentclass{scrartcl}
@@ -140,3 +177,6 @@ The invert.tex file will look like:
 \includepdfmerge[fitpaper]{./Canto1.pdf, 9}
 \end{document}
 ```
+
+## HOW IT LOOKS
+
