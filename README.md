@@ -76,3 +76,6 @@ LANDSCAPE
 
 \end{document}
 ```
+## How it looks
+
+![CHANGING PAGE SIZE IN THE MIDDLE OF DOCUMENT](./2020-08-18_23-41.png)
