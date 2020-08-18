@@ -224,3 +224,7 @@ Run the code
 python pagenumber.py > pagenumber.tex
 pdfplatex pagenumber.tex
 ```
+
+## HOW IT LOOKS
+
+![ADDING PAGE NUMBER AT THE BOTTOM](./2020-08-19_00-13.png)
