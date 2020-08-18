@@ -153,6 +153,7 @@ Run the code as
 
 ```bash
 python invert.pdf > invert.tex
+pdflatex invert.tex
 ```
 
 The `invert.tex` file will look like:
@@ -183,3 +184,43 @@ The `invert.tex` file will look like:
 ![INVERTING THE DOCUMENT TO READ IN NIGHT](./2020-08-19_00-00.png)
 
 
+# HOW TO ADD PAGENUMBERS FOR A PDF FILE
+
+We have a pdf file with different pagesize. We want to add pagenumber at the bottom
+We will insert the pdf page using `scrartcl` it will add the page number for the document. For that we add an extra space of 15pt.
+`Fitpaper` will center the page on the pagesize mentioned using `templatesize={"+str(width)+"pt}{"+str(height+15)+"pt}`
+So we have to offset of 7.5pt using `offset=0 7.5`
+
+
+```python
+from PyPDF2 import PdfFileReader
+import re
+pdf_file = PdfFileReader(open('./test.pdf', 'rb'))
+print("\\documentclass{scrartcl}")
+print("\\usepackage{pdfpages}")
+print("\\usepackage{geometry}")
+print("\\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}")
+
+# We want the pagenumber to be of this color. 
+# This will set the text color
+print("\\usepackage{xcolor}")
+print("\\color[RGB]{84,84,84}")
+
+print("\\begin{document}")
+
+for i in range(pdf_file.getNumPages()):
+	pagenum = i+1
+	height= pdf_file.getPage(i).mediaBox[3] - pdf_file.getPage(i).mediaBox[1]
+	width= pdf_file.getPage(i).mediaBox[2] - pdf_file.getPage(i).mediaBox[0]
+    print("\\newgeometry{layoutwidth = "+str(width)+"pt,layoutheight = "+str(height+15)+"pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}")
+    print("\\includepdfmerge[offset=0 7.5,fitpaper,templatesize={"+str(width)+"pt}{"+str(height+15)+"pt},pagecommand={\\thispagestyle{scrheadings}}]{./test.pdf, "+str(pagenum)+"}")
+
+print("\\end{document}")
+```
+
+Run the code
+
+```bash
+python pagenumber.py > pagenumber.tex
+pdfplatex pagenumber.tex
+```
