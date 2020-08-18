@@ -79,3 +79,35 @@ LANDSCAPE
 ## How it looks
 
 ![CHANGING PAGE SIZE IN THE MIDDLE OF DOCUMENT](./2020-08-18_23-41.png)
+
+# How to change pdf to night mode or invert its colors
+
+Here i am using a `python` script to generate the `tex` file. The reason is my pdf is of `different page sizes`. So i am using `pdfpages` package along with `fitpaper` option
+
+
+```python 
+from PyPDF2 import PdfFileReader
+import re
+
+
+pdf_file = PdfFileReader(open('./Canto1.pdf', 'rb'))
+
+print("\\documentclass{scrartcl}")
+print("\\usepackage{pdfpages}")
+print("\\usepackage{geometry}")
+print("\\usepackage[automark,headsepline,footsepline]{scrlayer-scrpage}")
+
+
+print("\\usepackage{xcolor}")
+print("\\pagecolor[rgb]{0,0,0}")
+print("\\color[RGB]{84,84,84}")
+
+print("\\begin{document}")
+
+cum_pagenum=0
+for i in range(pdf_file.getNumPages()):
+#for i in range(1,50,1):
+    pagenum = i+1
+    print("\\includepdfmerge[fitpaper]{./Canto1.pdf, "+str(pagenum)+"}")
+print("\\end{document}")
+```
