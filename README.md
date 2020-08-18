@@ -81,7 +81,7 @@ LANDSCAPE
 
 If we are directly puttin full pdf pages then just have to use `pdfpages` and `fitpaper`. This will resize the papersize as per the page size of that of pdf page 
 
-```
+```latex
 \documentclass{article}
 \usepackage{pdfpages}
 \begin{document}
@@ -220,7 +220,7 @@ print("\\end{document}")
 
 Run the code
 
-```bash
+```sh
 python pagenumber.py > pagenumber.tex
 pdfplatex pagenumber.tex
 ```
