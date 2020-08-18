@@ -111,3 +111,32 @@ for i in range(pdf_file.getNumPages()):
     print("\\includepdfmerge[fitpaper]{./Canto1.pdf, "+str(pagenum)+"}")
 print("\\end{document}")
 ```
+
+Run the code as
+
+```bash
+python invert.pdf > invert.tex
+```
+
+The invert.tex file will look like:
+
+```latex
+\documentclass{scrartcl}
+\usepackage{pdfpages}
+\usepackage{geometry}
+\usepackage[automark,headsepline,footsepline]{scrlayer-scrpage}
+\usepackage{xcolor}
+\pagecolor[rgb]{0,0,0}
+\color[RGB]{84,84,84}
+\begin{document}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 1}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 2}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 3}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 4}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 5}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 6}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 7}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 8}
+\includepdfmerge[fitpaper]{./Canto1.pdf, 9}
+\end{document}
+```
