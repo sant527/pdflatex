@@ -1,6 +1,6 @@
-#HOW TO CHANGE PAGE SIZE IN THE MID OF THE DOCUMENT
+# HOW TO CHANGE PAGE SIZE IN THE MID OF THE DOCUMENT
 
-##METHOD 1 (The following works in PDFLaTeX:)
+## METHOD 1 (The following works in PDFLaTeX:)
 https://tex.stackexchange.com/a/6838/221200
 
 ```latex
@@ -27,7 +27,7 @@ https://tex.stackexchange.com/a/6838/221200
 
 \eject \pdfpagewidth=6in \pdfpageheight=2.5in
 \newgeometry{layoutwidth =6in,layoutheight = 2.5in,left=0mm,right=0mm,top=0mm,bottom=0mm,footskip=1mm}
-"LANDSCAPE"
+LANDSCAPE
 
 \end{document}
 ```
