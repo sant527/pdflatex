@@ -77,7 +77,7 @@ LANDSCAPE
 \end{document}
 ```
 
-## METHOD3 (indirect Method)
+## METHOD3 (indirect Method)(works only with full pdf page and header and footer)
 
 If we are directly puttin full pdf pages then just have to use `pdfpages` and `fitpaper`. This will resize the papersize as per the page size of that of pdf page 
 
