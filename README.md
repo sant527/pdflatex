@@ -228,3 +228,81 @@ pdfplatex pagenumber.tex
 ## HOW IT LOOKS
 
 ![ADDING PAGE NUMBER AT THE BOTTOM](./2020-08-19_00-13.png)
+
+
+# IMPORTANT THINGS TO REMEMBER WHILE TYPING OR NEW LINES, SPACES ETC
+
+I wanted to add spacing before and after a para and have `hfill` inbetween. So I was doing
+
+```latex
+\hspace{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace{10mm}
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{test.pdf} (% this is just shown nothing to do with the main problem)
+```
+
+This will not treat `\hspace*{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace*{10mm}` as a para so it will not work. Because there has to be an empty next line or \par
+
+It will look like
+
+![hfill not working](./2020-08-19_15-50.png)
+
+Solution is add \par
+
+```latex
+\hspace{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace{10mm}\par
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{test.pdf}  (% this is just shown nothing to do with the main problem)
+```
+
+it will look like
+
+![end /hspace{10mm} not working](./2020-08-19_15-57.png)
+
+So what works is
+
+```latex
+\hspace{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace*{10mm}\par  (added star after hspace with \par)
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{test.pdf}  (% this is just shown nothing to do with the main problem)
+```
+
+it looks like
+
+![working](./2020-08-19_16-02.png)
+
+# How To add a portion of pdf page into a document using includegraphics
+
+```latex
+\documentclass[]{scrartcl}
+\usepackage{graphicx}
+\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}
+\usepackage[showframe]{geometry}
+\usepackage{xcolor}
+\color[RGB]{84,84,84}
+\begin{document}
+
+% dim of onlyindex_full_sb_no_heading_cropped_4pgs
+% height: 355.09240
+% width: 432
+%RectangleObject([0, 1228.9076, 432, 1584])
+
+% dim of Canto1_only_sloka_top_cropped_1
+% height: 32.16000
+% width: 432
+%RectangleObject([0, 111.84, 432, 144])
+
+% so width = 432
+% total height = 355 + 32 + 30(extra space) = 417pt
+
+
+\KOMAoptions{paper=432pt:417.25240pt,DIV=calc,paper=landscape}
+\recalctypearea
+\newgeometry{layoutwidth = 432pt,layoutheight = 417.25240pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\parindent=0pt
+\hspace{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace*{10mm}\par
+\includegraphics[trim=0 0 0 5pt,width=\textwidth,keepaspectratio,page=1]{/home/simha/latex_includegraphics/full_files_pdf/Canto1_only_sloka_top_cropped_1.pdf}
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{/home/simha/latex_includegraphics/full_files_pdf/onlyindex_full_sb_no_heading_cropped_4pgs.pdf}
+
+\end{document}
+```
+
+HOw it looks
+
+![working](./2020-08-19_16-08.png)
