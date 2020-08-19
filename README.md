@@ -232,6 +232,8 @@ pdfplatex pagenumber.tex
 
 # IMPORTANT THINGS TO REMEMBER WHILE TYPING OR NEW LINES, SPACES ETC
 
+![Notes on typing spaces and paragraph](./2020-08-19_15-42.png)
+
 I wanted to add spacing before and after a para and have `hfill` inbetween. So I was doing
 
 ```latex
