@@ -308,3 +308,58 @@ it looks like
 HOw it looks
 
 ![working](./2020-08-19_16-08.png)
+
+
+
+# pdfpages fitpaper: it will fit the image to paper size but keep scale=1 only
+
+The following code will create a pdf with 400pt x 400p
+
+```
+\documentclass[version=3.21]{scrartcl}
+\usepackage{pdfpages}
+\usepackage[showframe]{geometry}
+\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\baselineskip}{0pt}
+\begin{document}
+\KOMAoptions{paper=400pt:400pt,DIV=calc}
+\recalctypearea
+\newgeometry{layoutwidth =400pt,layoutheight =400pt,left=0mm,right=0mm,top=0mm, bottom=0mm}
+\thispagestyle{empty}
+Sampe Some text
+\end{document}
+```
+
+![](https://i.stack.imgur.com/CMIZZ.png)
+
+
+The following code create a pdf of page size 600pt x 600pt and include the pdf which is 400ptx 400pt
+we see that it does not scale to 600ptx600pt rather remains 400ptx400pt
+
+```
+\documentclass[version=3.21]{scrartcl}
+\usepackage{pdfpages}
+\usepackage{geometry}
+\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\baselineskip}{0pt}
+\begin{document}
+\includepdfmerge[fitpaper,templatesize={300pt}{300pt},pagecommand={\thispagestyle{empty}}]{testing.pdf,1}
+\end{document}
+```
+
+![](https://i.stack.imgur.com/HWoT8.png)
+
+**Solution is it use scale:**
+the scale option is not mentioned in the documentation of the pdfpages, but it works.
+
+Calculate scale as 600/400 = 1.5
+
+```
+\includepdfmerge[scale=1.5,fitpaper,templatesize={300pt}{300pt},pagecommand={\thispagestyle{empty}}]{testing.pdf,1}
+```
+
+https://tex.stackexchange.com/questions/563042/pdfpages-not-scaling-the-pdf-when-fitpaper-is-true
