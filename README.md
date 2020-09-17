@@ -363,3 +363,80 @@ Calculate scale as 600/400 = 1.5
 ```
 
 https://tex.stackexchange.com/questions/563042/pdfpages-not-scaling-the-pdf-when-fitpaper-is-true
+
+
+# Q: pdflatex: filesize of pdf generated using includepdfmerge(pdf-pages) is much smaller that includegraphics
+https://tex.stackexchange.com/questions/562575/pdflatex-filesize-of-pdf-generated-using-includepdfmergepdf-pages-is-much-sma/562670#562670
+
+**SOLUTION**
+For the sake of stopping fonts getting embedded everypage due to includegraphics we have to store the pdf once in temporary box to trigger the font optimization.
+
+It can be done using
+```
+\documentclass{article}
+\usepackage{graphicx}
+\pagestyle{empty}
+\makeatletter
+\setbox\@tempboxa=\hbox{\includegraphics{example-image-a4-numbered}}% font is included only once
+\makeatother
+\begin{document}
+
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{example-image-a4-numbered}%
+\newpage
+\includegraphics[width=\textwidth,keepaspectratio,page=2]{example-image-a4-numbered}%
+\newpage
+\includegraphics[width=\textwidth,keepaspectratio,page=3]{example-image-a4-numbered}%
+\newpage
+\includegraphics[width=\textwidth,keepaspectratio,page=4]{example-image-a4-numbered}%
+\newpage
+\includegraphics[width=\textwidth,keepaspectratio,page=5]{example-image-a4-numbered}%
+\end{document}
+```
+
+Example used in Adi
+```
+\documentclass[version=3.21]{scrartcl}
+\usepackage{pdfpages}
+\usepackage{geometry}
+\usepackage[automark,headsepline=false,footsepline=false]{scrlayer-scrpage}
+\usepackage{xcolor}
+\color[RGB]{84,84,84}
+\ohead{PUR}
+\makeatletter
+\setbox\@tempboxa=\hbox{\includegraphics{./CC/CHBRK_LATEST/DOCS_AND_PDFS/Adi_only_chp_brk_cropped.pdf}}
+\setbox\@tempboxa=\hbox{\includegraphics{./CC/CHBRK_LATEST/DOCS_AND_PDFS/FULL_CHAP_BREAKUP_cropped.pdf}}
+\setbox\@tempboxa=\hbox{\includegraphics{./CC/Adi/guru/translation_up/Adi_cropped.pdf}}
+\setbox\@tempboxa=\hbox{\includegraphics{./CC/CHBRK_LATEST/DOCS_AND_PDFS/only_sloka_top/Adi_only_chp_brk_cropped.pdf}}
+\makeatother
+\begin{document}
+%RectangleObject([0, 575.24002, 432, 1080])
+\newgeometry{layoutwidth = 432pt,layoutheight = 372pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 90.0,fitpaper,trim=0 312.75998pt 0 0, clip,templatesize={432pt}{372pt},pagecommand={\thispagestyle{plain}}]{./CC/Adi/guru/translation_up/Adi_cropped.pdf, 1}
+\newgeometry{layoutwidth = 432pt,layoutheight = 372pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 90.0,fitpaper,trim=0 136.75998pt 0 176pt, clip,templatesize={432pt}{372pt},pagecommand={\thispagestyle{plain}}]{./CC/Adi/guru/translation_up/Adi_cropped.pdf, 1}
+\newgeometry{layoutwidth = 432pt,layoutheight = 372pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 109.62001,fitpaper,trim=0 0 0 352pt, clip,templatesize={432pt}{372pt},pagecommand={\thispagestyle{plain}}]{./CC/Adi/guru/translation_up/Adi_cropped.pdf, 1}
+%sed -i 's@BookmarkPageNumber: 1$@BookmarkPageNumberXYZ: 1@g' dump_data_CantoAdi_raw_translation_above.txt;
+\KOMAoptions{paper=432pt:510.43013pt,DIV=calc}
+\recalctypearea
+\newgeometry{layoutwidth = 432pt,layoutheight = 510.43013pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{/home/simha_personal_data/Books_made/NCD_CC/CHBRK_LATEST/DOCS_AND_PDFS/only_sloka_top/Adi_only_chp_brk_cropped.pdf}
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{/home/simha_personal_data/Books_made/NCD_CC/CHBRK_LATEST/DOCS_AND_PDFS/FULL_CHAP_BREAKUP_cropped.pdf}
+\KOMAoptions{paper=432pt:552.17748pt,DIV=calc}
+\recalctypearea
+\newgeometry{layoutwidth = 432pt,layoutheight = 552.17748pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includegraphics[width=\textwidth,keepaspectratio,page=1]{/home/simha_personal_data/Books_made/NCD_CC/CHBRK_LATEST/DOCS_AND_PDFS/only_sloka_top/Adi_only_chp_brk_cropped.pdf}
+\includegraphics[width=\textwidth,keepaspectratio,page=2]{/home/simha_personal_data/Books_made/NCD_CC/CHBRK_LATEST/DOCS_AND_PDFS/FULL_CHAP_BREAKUP_cropped.pdf}
+%sloka_page: 1
+%RectangleObject([0, 195.36001, 432, 288])
+\newgeometry{layoutwidth = 432pt,layoutheight = 272.63999pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
+\includepdfmerge[offset=0 90.0,fitpaper,templatesize={432pt}{272.63999pt},pagecommand={\thispagestyle{plain}}]{/home/simha_personal_data/Books_made/NCD_CC/CHBRK_LATEST/DOCS_AND_PDFS/Adi_only_chp_brk_cropped.pdf, 1}
+\ihead{\hspace{5mm}[1/4][1/14]}
+\ohead{}
+\newgeometry{layoutwidth = 432pt,layoutheight = 459.63997pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm,headsep=-12mm}
+\includepdfmerge[offset=0 90.0,fitpaper,templatesize={432pt}{459.63997pt},pagecommand={\thispagestyle{scrheadings}}]{/home/simha_personal_data/Books_made/NCD_CC/Adi/guru/translation_up/Adi_cropped.pdf, 27}
+\end{document}
+```
+
+
+
