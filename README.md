@@ -299,6 +299,7 @@ it looks like
 \newgeometry{layoutwidth = 432pt,layoutheight = 417.25240pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm}
 \parindent=0pt
 \hspace{10mm}[17-20/44][1/6][1-2/2][23-26/50][4-7/12]\hfill5x[16/16][1/1]\hspace*{10mm}\par
+% note trim 0 0 0 5pt means trim from bottom 5pt. 
 \includegraphics[trim=0 0 0 5pt,width=\textwidth,keepaspectratio,page=1]{/home/simha/latex_includegraphics/full_files_pdf/Canto1_only_sloka_top_cropped_1.pdf}
 \includegraphics[width=\textwidth,keepaspectratio,page=1]{/home/simha/latex_includegraphics/full_files_pdf/onlyindex_full_sb_no_heading_cropped_4pgs.pdf}
 
