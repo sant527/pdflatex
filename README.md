@@ -441,4 +441,43 @@ Example used in Adi
 ```
 
 
+# How to change heading
 
+
+```
+            print("\\KOMAoptions{paper="+str(width)+"pt:"+str(495.15995)+"pt,DIV=calc}")
+            print("\\recalctypearea")
+
+            if not pagenum in hp:
+                print("\\thispagestyle{plain}")  # <-- this nullifies the ihead and ohead, else it will show
+                pass
+            else:
+                #print("\\thispagestyle{scrheadings}")
+                print("\\ihead{\\hspace{5mm}PUR}")
+                print("\\ohead{PUR\\hspace*{5mm}}")
+
+            print("\\newgeometry{layoutwidth = "+str(width)+"pt,layoutheight = "+str(495.15995)+"pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm,headsep=-12mm}")
+            print("\\parindent=0pt")
+            print("\\includegraphics[width=\\textwidth,keepaspectratio,page="+str(pagenum)+"]{"+sb_content_only_top+"}")
+            print("\\includegraphics[trim=0 0 0 20pt,clip,width=\\textwidth,keepaspectratio,page="+str(2)+"]{"+sb_content+"}")
+
+```
+
+but if we are using includepdfmerge instead of includegraphics then
+
+use page `pagecommand={\\thispagestyle{plain}}]`
+
+```
+            if not pagenum in hp:
+                print("\\newgeometry{layoutwidth = "+str(width)+"pt,layoutheight = "+str(height+add_space)+"pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm,headsep=-12mm}")
+                print("\\includepdfmerge[offset=0 "+str(add_space/2)+",fitpaper,templatesize={"+str(width)+"pt}{"+str(height+add_space)+"pt},pagecommand={\\thispagestyle{plain}}]{"+sb_content+", "+str(pagenum)+"}")
+                bookmark_page = cum_pagenum + 1
+                cum_pagenum = cum_pagenum + 1
+            else:
+                print("\\ihead{\\hspace{5mm}PUR}")
+                print("\\ohead{PUR\\hspace*{5mm}}")
+                print("\\newgeometry{layoutwidth = "+str(width)+"pt,layoutheight = "+str(height+add_space)+"pt,left=0mm,right=0mm,top=0mm, bottom=0mm,footskip=1mm,headsep=-12mm}")
+                print("\\includepdfmerge[offset=0 "+str(add_space/2)+",fitpaper,templatesize={"+str(width)+"pt}{"+str(height+add_space)+"pt},pagecommand={\\thispagestyle{scrheadings}}]{"+sb_content+", "+str(pagenum)+"}")
+                bookmark_page = cum_pagenum + 1
+                cum_pagenum = cum_pagenum + 1
+```
